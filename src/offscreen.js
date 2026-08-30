@@ -1,5 +1,4 @@
-// Decode an MP4 frame-by-frame, encode a GIF with gifenc.
-// Has to live in an offscreen doc because MV3 service workers can't host a <video>.
+// Lives in an offscreen doc because MV3 service workers can't host a <video>.
 
 import { GIFEncoder, quantize, applyPalette } from "./vendor/gifenc.js";
 

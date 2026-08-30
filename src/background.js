@@ -1,5 +1,3 @@
-// MV3 service worker. Resolves tweet media URLs via the public syndication endpoint.
-
 const DEBUG = false;
 const dlog = (...args) => DEBUG && console.log("[XFetch/bg]", ...args);
 
@@ -74,8 +72,6 @@ function extractAllMedia(json) {
   return items;
 }
 
-// --- Settings ---
-
 const DEFAULT_SETTINGS = {
   gifEnabled: true,
   gifQuality: "medium",
@@ -93,8 +89,6 @@ function getSettings() {
     chrome.storage.sync.get(DEFAULT_SETTINGS, resolve);
   });
 }
-
-// --- GIF conversion ---
 
 const OFFSCREEN_PATH = "src/offscreen.html";
 
@@ -136,8 +130,6 @@ async function convertToGif(mp4Url, filename, tabId, tweetId) {
   });
   dlog("convertToGif download dispatched", { filename });
 }
-
-// --- Context menus ---
 
 function createContextMenus() {
   chrome.contextMenus.removeAll(() => {
@@ -182,8 +174,6 @@ chrome.contextMenus.onClicked.addListener((info, tab) => {
     }
   }
 });
-
-// --- Message handler ---
 
 chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
   dlog("message received", message?.type);

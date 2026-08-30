@@ -3,4 +3,9 @@
 dist/
 node_modules/
 icons/icon-source*.png
+# original hand-made icon art, kept in the repo
+!icons/icon-source-512.png
 store/
+build/
+__pycache__/
+tools/

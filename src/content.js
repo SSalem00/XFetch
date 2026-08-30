@@ -1,5 +1,3 @@
-// Content script: watch for tweets, inject a download button into the action bar.
-
 const DEBUG = false;
 const dlog = (...args) => DEBUG && console.log("[XFetch/content]", ...args);
 dlog("content script loaded");
@@ -10,10 +8,8 @@ const BTN_SVG = `<svg viewBox="0 0 24 24" width="18" height="18" fill="currentCo
   <path d="M12 16l-6-6h4V4h4v6h4l-6 6zm-7 2h14v2H5v-2z"/>
 </svg>`;
 
-// Map from tweetId → button element, for updating progress during GIF conversion
 const activeGifDownloads = new Map();
 
-// Pull the tweet ID out of any /status/<id> link inside the article.
 function getTweetId(article) {
   const link = article.querySelector('a[href*="/status/"]');
   if (!link) return null;
@@ -92,8 +88,6 @@ function extractMediaFromDom(article) {
   return items;
 }
 
-// --- Settings ---
-
 const DEFAULT_SETTINGS = {
   gifEnabled: true,
   gifQuality: "medium",
@@ -114,8 +108,6 @@ function getSettings() {
 
 chrome.storage.onChanged.addListener(() => { settingsCache = null; });
 
-// --- Filename templating ---
-
 function buildFilename(template, { username, tweetId, type, index, total }) {
   const date = new Date().toISOString().slice(0, 10).replace(/-/g, "");
   const typeStr = type === "animated_gif" ? "gif" : type;
@@ -127,19 +119,15 @@ function buildFilename(template, { username, tweetId, type, index, total }) {
     .replace(/{type}/g, typeStr)
     .replace(/{index}/g, total > 1 ? String(index + 1) : "");
 
-  // If multiple media and template doesn't include {index}, append a suffix
   if (total > 1 && !template.includes("{index}")) {
     name += `_${index + 1}`;
   }
 
-  // Sanitize filesystem-unsafe characters and clean up extra underscores
   return name
     .replace(/[<>:"/\\|?*]+/g, "_")
     .replace(/__+/g, "_")
     .replace(/^_|_$/g, "");
 }
-
-// --- Download handler ---
 
 async function handleDownload(tweetId, btn, article) {
   btn.classList.add("twitterdl-loading");
@@ -205,8 +193,6 @@ function restoreButton(btn) {
   btn.style.fontSize = "";
 }
 
-// --- GIF progress listener ---
-
 chrome.runtime.onMessage.addListener((msg) => {
   if (msg.type !== "GIF_PROGRESS") return;
   const btn = activeGifDownloads.get(msg.tweetId);
@@ -215,8 +201,6 @@ chrome.runtime.onMessage.addListener((msg) => {
   btn.classList.add("twitterdl-progress");
   btn.innerHTML = `<span class="twitterdl-pct">${pct}%</span>`;
 });
-
-// --- Messaging helpers ---
 
 function fetchMediaInfo(tweetId) {
   return sendMessage({ type: "FETCH_MEDIA_URL", tweetId });
@@ -261,8 +245,6 @@ function showToast(message) {
 
   setTimeout(() => toast.remove(), 3000);
 }
-
-// --- Tweet scanning ---
 
 function processTweets() {
   const articles = document.querySelectorAll(
