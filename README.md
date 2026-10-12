@@ -1,40 +1,40 @@
 # XFetch
 
-A Chromium extension that adds a download button to tweets with video, GIFs, or images.
+Download videos, images, and GIFs from X (Twitter) with one click.
 
-Twitter "GIFs" are actually MP4s. Most downloaders hand you that MP4 or send you to EzGIF. XFetch converts them to real `.gif` files in-browser — no upload, no extra steps.
+**[Get XFetch on the Chrome Web Store](https://chromewebstore.google.com/detail/xfetch-%E2%80%94-x-twitter-video/mlnfmnjccjcbimjfblnlhidfmooocepi)**
 
-## Install
+![Download button on a tweet](https://raw.githubusercontent.com/SSalem00/assets/main/screenshot.png)
 
-1. Download the repo — either click the green **Code** button → **Download ZIP** and unzip it, or:
-   ```
-   git clone https://github.com/SSalem00/Xsave.git
-   ```
-   Keep the folder somewhere permanent. The browser loads files from it directly.
+## Why XFetch
 
-2. Go to `chrome://extensions`
-3. Turn on **Developer mode** (top right).
-4. Click **Load unpacked** and pick the folder you just downloaded (the one with `manifest.json`).
+Twitter "GIFs" are actually MP4s. Most downloaders hand you that MP4 or send you to a converter site. XFetch turns them into real animated `.gif` files right in your browser. No uploads, no extra steps.
 
-Open twitter.com or x.com and you'll see a **↓** button on any tweet with video, GIFs, or images.
+## Features
+
+- Download button added to every tweet with video, GIFs, or images
+- Real `.gif` output, converted locally
+- Live conversion progress shown on the button
+- Works on twitter.com and x.com
 
 ## Settings
 
-Right-click the extension icon → **Options**.
+Right-click the extension icon and choose **Options**.
 
-- **GIF conversion** — toggle on/off (off saves the original MP4 instead)
-- **Quality preset** — Low (360p · 10fps), Medium (480p · 15fps), High (720p · 24fps)
-- **Filename template** — uses `{username}`, `{tweetid}`, `{date}`, `{type}`, `{index}` tokens
+- **GIF conversion**: toggle on or off (off saves the original MP4 instead)
+- **Quality preset**: Low (360p, 10fps), Medium (480p, 15fps), High (720p, 24fps)
+- **Filename template**: supports `{username}`, `{tweetid}`, `{date}`, `{type}`, `{index}` tokens
 
 ## Notes
 
-- GIF conversion progress shows live on the button — it won't look frozen.
-- Doesn't work on private/protected tweets.
+- Does not work on private or protected tweets.
 - Higher quality presets produce larger files and take longer. Medium is a good default.
-- Uses X's public syndication endpoint. Personal use only — respect X's ToS.
+- Uses X's public syndication endpoint. Personal use only, please respect X's ToS.
 
 ## Stack
 
-Plain JS, MV3, no build step. [gifenc](https://github.com/mattdesl/gifenc) handles GIF encoding inside an offscreen document.
+Plain JS, Manifest V3, no build step. [gifenc](https://github.com/mattdesl/gifenc) handles GIF encoding inside an offscreen document.
 
-![Download button on a tweet](https://raw.githubusercontent.com/SSalem00/assets/main/screenshot.png)
+## Privacy
+
+See [PRIVACY.md](PRIVACY.md).
